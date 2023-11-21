@@ -28,8 +28,8 @@ class Settings:
         
         def increaseSpeed(self):
             self.shipSpeedUpFactor *= self.speedupGameplayScale
-            self.bullet_speed_factor *= self.speedupGameplayScale
-            self.superbullet_speed_factor *= self.speedupGameplayScale
+            self.bulletSpeedFactor *= self.speedupGameplayScale
+            self.superBulletSpeedFactor *= self.speedupGameplayScale
             self.AlienHitPointsByBullet *= self.speedupGameplayScale
             self.AlienHitPointsBySuperBullet *= self.speedupGameplayScale
 
