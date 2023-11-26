@@ -18,7 +18,7 @@ pg.display.set_mode((width, height))
 pg.display.set_caption("Alien Invasion")
 
 # background
-bg = pg.transform.scale(pg.image.load("background-black.png"), (width, height))
+bg = pg.transform.scale(pg.image.load("Assets/Images/background-black.png"), (width, height))
 
 
 def main():
