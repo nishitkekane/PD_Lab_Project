@@ -60,6 +60,7 @@ def game():
     main_font = pg.font.Font("Assets/Fonts/Alpharush.ttf", 25)
     lost_font = pg.font.Font("Assets/Fonts/Alpharush.ttf", 50)
 
+    backgroundAudio.play()
     while run:
         clock.tick(FPS)
         redraw_window()

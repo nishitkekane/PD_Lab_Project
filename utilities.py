@@ -47,7 +47,7 @@ blue_laser = pg.image.load("Assets/Images/pixel_laser_blue.png")
 buttonAudio = pg.mixer.Sound("Assets/Audio/Button.wav")
 explosionAudio = pg.mixer.Sound("Assets/Audio/Explosion.mp3")
 gunshotAudio = pg.mixer.Sound("Assets/Audio/LaserShot.mp3")
-
+backgroundAudio = pg.mixer.Sound("Assets/Audio/Space shooter galaxy attack Background Music.mp3")
 
 # Game Functions
 def quitGame():
