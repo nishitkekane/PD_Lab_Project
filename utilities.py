@@ -46,7 +46,7 @@ blue_laser = pg.image.load("Assets/Images/pixel_laser_blue.png")
 # Load Audio files
 buttonAudio = pg.mixer.Sound("Assets/Audio/Button.wav")
 explosionAudio = pg.mixer.Sound("Assets/Audio/Explosion.mp3")
-gunshotAudio = pg.mixer.Sound("Assets/Audio/blaster-2-81267.mp3")
+gunshotAudio = pg.mixer.Sound("Assets/Audio/LaserShot.mp3")
 
 
 # Game Functions
