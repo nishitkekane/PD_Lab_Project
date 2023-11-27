@@ -119,6 +119,7 @@ def game():
                 enemy.move_lasers(laser_vel - 5, player)
 
             if collide(enemy, player):
+                explosionAudio.play()
                 player.health -= 10
                 enemies.remove(enemy)
 

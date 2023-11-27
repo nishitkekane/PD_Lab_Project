@@ -1,7 +1,7 @@
 import pygame as pg
 from pygame.locals import *
 import sys
-from utilities import win, width, height, bg, quitGame, drawText, FPS, font
+from utilities import *
 from game import game
 
 pg.init()
@@ -61,6 +61,7 @@ def main_menu():
                     pg.quit()
                     sys.exit()
             if event.type == MOUSEBUTTONDOWN:
+                buttonAudio.play()
                 if event.button == 1:
                     click = True
 
@@ -73,7 +74,7 @@ def options():
     while running:
         win.fill((0, 0, 0))
 
-        drawText("OPTIONS win", font, (255, 255, 255), win, 20, 20)
+        drawText("OPTIONS Page", font, (255, 255, 255), win, 20, 20)
         for event in pg.event.get():
             if event.type == QUIT:
                 quitGame()

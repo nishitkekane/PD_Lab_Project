@@ -1,5 +1,5 @@
 import pygame as pg
-from utilities import win
+from utilities import win, gunshotAudio
 from Laser import Laser
 
 
@@ -32,6 +32,7 @@ class Ship:
             laser = Laser(self.x, self.y, self.laser_img)
             self.lasers.append(laser)
             self.cool_counter = 1
+            gunshotAudio.play()
 
     def move_lasers(self, vel, obj):
         self.cooldown()
