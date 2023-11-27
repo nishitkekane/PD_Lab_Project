@@ -1,10 +1,16 @@
 import pygame as pg
 from Laser import Laser
 from Ship import Ship
-from utilities import red_laser, red_ship, green_laser, green_ship, blue_laser, blue_ship
+from utilities import (
+    red_laser,
+    red_ship,
+    green_laser,
+    green_ship,
+    blue_laser,
+    blue_ship,
+)
 
 
-# class Enemy is inherits from class Ship
 class Enemy(Ship):
     COLOR_MAP = {
         "red": (red_ship, red_laser),

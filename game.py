@@ -12,16 +12,11 @@ pg.init()
 pg.font.init()
 
 # Window
-width, height = 750, 750
-win = pg.display.set_mode((width, height))
 pg.display.set_mode((width, height))
 pg.display.set_caption("Alien Invasion")
 
-# background
-bg = pg.transform.scale(pg.image.load("Assets/Images/background-black.png"), (width, height))
 
-
-def main():
+def game():
     def redraw_window():
         win.blit(bg, (0, 0))
         lives_label = main_font.render(f"Lives: {lives}", 1, (255, 255, 255))
@@ -62,8 +57,8 @@ def main():
     player = Player(325, 600)
     clock = pg.time.Clock()
 
-    main_font = pg.font.SysFont("Comic Sans", 25)
-    lost_font = pg.font.SysFont("Comic Sans", 50)
+    main_font = pg.font.Font("Assets/Fonts/Alpharush.ttf", 25)
+    lost_font = pg.font.Font("Assets/Fonts/Alpharush.ttf", 50)
 
     while run:
         clock.tick(FPS)
@@ -93,11 +88,9 @@ def main():
 
         for event in pg.event.get():
             if event.type == pg.QUIT:
-                run = False
-                pg.quit()
+                quitGame()
             if keys[pg.K_ESCAPE]:
-                run = False
-                pg.quit()
+                quitGame()
 
         # Movement of player
         keys = pg.key.get_pressed()
@@ -137,24 +130,3 @@ def main():
                 enemies.remove(enemy)
 
         player.move_lasers(-laser_vel, enemies)
-
-
-def main_menu():
-    title_font = pg.font.SysFont("comicsans", 45)
-    run = True
-    while run:
-        win.blit(bg, (0, 0))
-        title_label = title_font.render(
-            "Press the mouse to begin...", 1, (255, 255, 255)
-        )
-        win.blit(title_label, (width / 2 - title_label.get_width() / 2, 350))
-        pg.display.update()
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                run = False
-            if event.type == pg.MOUSEBUTTONDOWN:
-                main()
-    pg.quit()
-
-
-main_menu()
