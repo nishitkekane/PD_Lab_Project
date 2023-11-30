@@ -7,7 +7,7 @@ Welcome to the PD Lab Project, a Python Lab project for the third semester. This
 The goal of this project is to showcase our skills in Python programming and application development. We have made a a Game in Python where we have implemented various features and functionalities to demonstrate our understanding of the concepts covered in the lab sessions.
 
 ## Contributors
-- [**Manas Bawaskar**](https://github.com/manascb1344)
+- [**Manas Bavaskar**](https://github.com/manascb1344)
 - [**Nishit Kekane**](https://github.com/nishitkekane)
 
 ## Project Structure
