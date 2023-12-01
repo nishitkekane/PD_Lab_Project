@@ -6,7 +6,8 @@ pg.font.init()
 pg.mixer.init()
 
 # Font
-font = pg.font.Font("Assets/Fonts/Valorax-lg25V.otf", 44)
+font = pg.font.Font("Assets/Fonts/Valorax.otf", 44)
+font_small = pg.font.Font("Assets/Fonts/Valorax.otf", 25)
 main_font = pg.font.Font("Assets/Fonts/Alpharush.ttf", 25)
 lost_font = pg.font.Font("Assets/Fonts/Alpharush.ttf", 50)
 
@@ -18,6 +19,9 @@ win = pg.display.set_mode((width, height))
 bg = pg.transform.scale(
     pg.image.load("Assets/Images/background-black.png"), (width, height)
 )
+bg_01 = pg.transform.scale(pg.image.load("Assets/Images/bg_01.png"), (width, height))
+
+bg_02 = pg.transform.scale(pg.image.load("Assets/Images/bg_02.png"), (width, height))
 
 # Display
 FPS = 60

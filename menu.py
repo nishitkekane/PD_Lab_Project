@@ -14,8 +14,10 @@ pg.display.set_caption("Alien Invasion")
 
 def main_menu():
     while True:
-        win.blit(bg, (0, 0))
+        # Mouse Position
         mouseX, mouseY = pg.mouse.get_pos()
+
+        win.blit(bg, (0, 0))
 
         titleText = font.render("Alien Invasion", 1, (125, 125, 255))
         win.blit(titleText, (width / 2 - titleText.get_width() / 2, 100))
@@ -73,17 +75,43 @@ def main_menu():
 def options():
     running = True
     while running:
-        win.fill((0, 0, 0))
+        # Mouse Position
+        mouseX, mouseY = pg.mouse.get_pos()
 
-        drawText("OPTIONS Page", font, (255, 255, 255), win, 20, 20)
-        # mainMenuText = font.render("Main Menu", 1, (255, 255, 255))
-        # win.blit(mainMenuText, (width / 2 - mainMenuText.get_width() / 2, 200))
+        win.fill((0, 0, 0))
+        # Options Text
+        optionsText = font.render("Options", 1, (255, 255, 255))
+        win.blit(optionsText, (width / 2 - optionsText.get_width() / 2, 25))
+
+        # Back Button
+        backText = font_small.render("Back", 1, (255, 255, 255))
+        backButton = pg.Rect(
+            25,
+            35,
+            backText.get_width() + 5,
+            backText.get_height() + 5,
+        )
+        pg.draw.rect(win, (255, 0, 0), backButton)
+
+        win.blit(backText, (25, 35))
+
+        click = False
         for event in pg.event.get():
             if event.type == pg.QUIT:
-                quitGame()
+                running = False
+                pg.quit()
+                sys.exit()
             if event.type == pg.KEYDOWN:
                 if event.key == K_ESCAPE:
                     running = False
+            if event.type == pg.MOUSEBUTTONDOWN:
+                buttonAudio.play()
+                if event.button == 1:
+                    click = True
+
+        if backButton.collidepoint((mouseX, mouseY)):
+            if click:
+                running = False
 
         pg.display.update()
         mainClock.tick(FPS)
