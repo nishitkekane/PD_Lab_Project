@@ -34,11 +34,24 @@ def drawText(text, font, color, surface, x, y):
 
 # Load images
 # ships
-red_ship = pg.image.load("Assets/Images/pixel_ship_red_small.png")
-blue_ship = pg.image.load("Assets/Images/pixel_ship_blue_small.png")
-green_ship = pg.image.load("Assets/Images/pixel_ship_green_small.png")
-yellow_ship = pg.image.load("Assets/Images/pixel_ship_yellow.png")
+red_ship = pg.image.load("Assets/Images/red_ship.png")
+red_ship = pg.transform.scale(
+    red_ship, (red_ship.get_width() * 0.6, red_ship.get_height() * 0.6)
+)
 
+blue_ship = pg.image.load("Assets/Images/blue_ship.png")
+blue_ship = pg.transform.scale(
+    blue_ship, (blue_ship.get_width() * 0.6, blue_ship.get_height() * 0.6)
+)
+
+green_ship = pg.image.load("Assets/Images/green_ship.png")
+green_ship = pg.transform.scale(
+    green_ship, (green_ship.get_width() * 0.6, green_ship.get_height() * 0.6)
+)
+yellow_ship = pg.image.load("Assets/Images/yellow_ship.png")
+yellow_ship = pg.transform.scale(
+    yellow_ship, (yellow_ship.get_width() * 0.9, yellow_ship.get_height() * 0.9)
+)
 # lasers
 red_laser = pg.image.load("Assets/Images/pixel_laser_red.png")
 yellow_laser = pg.image.load("Assets/Images/pixel_laser_yellow.png")
