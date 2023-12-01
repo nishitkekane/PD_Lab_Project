@@ -7,6 +7,8 @@ pg.mixer.init()
 
 # Font
 font = pg.font.Font("Assets/Fonts/Valorax-lg25V.otf", 44)
+main_font = pg.font.Font("Assets/Fonts/Alpharush.ttf", 25)
+lost_font = pg.font.Font("Assets/Fonts/Alpharush.ttf", 50)
 
 # Window
 width, height = 750, 750
@@ -19,8 +21,8 @@ bg = pg.transform.scale(
 
 # Display
 FPS = 60
-pg.display.set_mode((width, height))
-pg.display.set_caption("Alien Invasion")
+# pg.display.set_mode((width, height))
+# pg.display.set_caption("Alien Invasion")
 
 
 def drawText(text, font, color, surface, x, y):
@@ -47,7 +49,10 @@ blue_laser = pg.image.load("Assets/Images/pixel_laser_blue.png")
 buttonAudio = pg.mixer.Sound("Assets/Audio/Button.wav")
 explosionAudio = pg.mixer.Sound("Assets/Audio/Explosion.mp3")
 gunshotAudio = pg.mixer.Sound("Assets/Audio/LaserShot.mp3")
-backgroundAudio = pg.mixer.Sound("Assets/Audio/Space shooter galaxy attack Background Music.mp3")
+backgroundAudio = pg.mixer.Sound(
+    "Assets/Audio/Space shooter galaxy attack Background Music.mp3"
+)
+
 
 # Game Functions
 def quitGame():
