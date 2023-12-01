@@ -74,13 +74,14 @@ def options():
     running = True
     while running:
         win.fill((0, 0, 0))
-
         drawText("OPTIONS Page", font, (255, 255, 255), win, 20, 20)
         # mainMenuText = font.render("Main Menu", 1, (255, 255, 255))
         # win.blit(mainMenuText, (width / 2 - mainMenuText.get_width() / 2, 200))
         for event in pg.event.get():
             if event.type == pg.QUIT:
-                quitGame()
+                running = False
+                pg.quit()
+                sys.exit()
             if event.type == pg.KEYDOWN:
                 if event.key == K_ESCAPE:
                     running = False

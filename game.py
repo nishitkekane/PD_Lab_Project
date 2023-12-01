@@ -8,30 +8,36 @@ from Ship import Ship
 from Player import Player
 from Enemy import Enemy
 
-pg.init()
-pg.font.init()
-
-# Window
-pg.display.set_mode((width, height))
-pg.display.set_caption("Alien Invasion")
-
 
 def game():
-    def redraw_window():
+    def updateScreen():
         win.blit(bg, (0, 0))
         lives_label = main_font.render(f"Lives: {lives}", 1, (255, 255, 255))
         level_label = main_font.render(f"Level: {level}", 1, (255, 255, 255))
         lost_label = lost_font.render("You Lost!!", 1, (255, 255, 255))
+        # scoreLabel = main_font.render(f"Score: {score}", 1, (255, 255, 255))
         for enemy in enemies:
             enemy.draw()
 
         player.draw()
         win.blit(lives_label, (10, 10))
         win.blit(level_label, (width - level_label.get_width() - 10, 10))
-        if lost:
-            win.blit(lost_label, (width / 2 - lost_label.get_width() / 2, 350))
-
+        # win.blit(scoreLabel, (width / 2, 10))
         player.healthbar()
+        mouseX, mouseY = pg.mouse.get_pos()
+        if lost:
+            win.fill((0, 0, 255))
+            PlayAgainButton = pg.Rect(width / 2 - 160, height / 2 - 40, 320, 80)
+            pg.draw.rect(win, (255, 0, 0), PlayAgainButton)
+            win.blit(
+                lost_label,
+                (
+                    width / 2 - lost_label.get_width() / 2,
+                    height / 2 - lost_label.get_height() / 2,
+                ),
+            )
+            pg.display.update()
+
         pg.display.update()
 
     def collide(obj1, obj2):
@@ -40,10 +46,9 @@ def game():
         return obj1.mask.overlap(obj2.mask, (offset_x, offset_y)) != None
 
     level = 0
-    lives = 5
+    lives = 1
 
     run = True
-    FPS = 40
     lost = False
 
     enemies = []
@@ -56,14 +61,10 @@ def game():
 
     player = Player(325, 600)
     clock = pg.time.Clock()
-
-    main_font = pg.font.Font("Assets/Fonts/Alpharush.ttf", 25)
-    lost_font = pg.font.Font("Assets/Fonts/Alpharush.ttf", 50)
-
     backgroundAudio.play()
     while run:
         clock.tick(FPS)
-        redraw_window()
+        updateScreen()
 
         if lives <= 0 or player.health <= 0:
             lost = True
@@ -77,7 +78,7 @@ def game():
 
         if len(enemies) == 0:
             level += 1
-            wave_length += 5
+            wave_length += 2
 
             for i in range(wave_length):
                 enemy = Enemy(
