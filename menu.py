@@ -11,6 +11,9 @@ mainClock = pg.time.Clock()
 pg.display.set_mode((width, height))
 pg.display.set_caption("Alien Invasion")
 
+current_background = bg
+volume = 0.5
+
 
 def main_menu():
     while True:
@@ -72,8 +75,15 @@ def main_menu():
         mainClock.tick(FPS)
 
 
+def set_background(background_name):
+    global current_background
+    current_background = background_name
+
+
 def options():
+    global volume
     running = True
+    click = False
     while running:
         # Mouse Position
         mouseX, mouseY = pg.mouse.get_pos()
@@ -95,7 +105,48 @@ def options():
 
         win.blit(backText, (25, 35))
 
-        click = False
+        background_text = font_small.render(
+            f"Background: {current_background}", 1, (255, 255, 255)
+        )
+        win.blit(background_text, (width / 2 - background_text.get_width() / 2, 100))
+
+        for i, (name, image) in enumerate(backgrounds.items()):
+            button_text = font_small.render(name, 1, (255, 255, 255))
+            button_rect = pg.Rect(
+                50,
+                150 + i * 50,
+                button_text.get_width() + 25,
+                button_text.get_height() + 4,
+            )
+            pg.draw.rect(win, (255, 0, 0), button_rect)
+            win.blit(button_text, (60, 155 + i * 50))
+
+            if button_rect.collidepoint((mouseX, mouseY)) and click:
+                set_background(name)
+
+        # Volume slider
+        volume_text = font.render(f"Volume: {int(volume * 100)}%", 1, (255, 255, 255))
+        volume_text_x = width / 2 - volume_text.get_width() / 2
+        win.blit(volume_text, (volume_text_x, 400))
+
+        slider_bar_width = 300
+        slider_bar_x = (width - slider_bar_width) / 2
+        pg.draw.rect(win, (255, 0, 0), (slider_bar_x, 490, slider_bar_width, 20))
+        pg.draw.rect(
+            win, (0, 255, 0), (slider_bar_x, 490, int(volume * slider_bar_width), 20)
+        )
+
+        if pg.mouse.get_pressed()[0]:
+            if (
+                slider_bar_x <= mouseX <= slider_bar_x + slider_bar_width
+                and 490 <= mouseY <= 510
+            ):
+                volume = (mouseX - slider_bar_x) / slider_bar_width
+        backgroundAudio.set_volume(volume)
+        buttonAudio.set_volume(volume)
+        explosionAudio.set_volume(volume)
+        gunshotAudio.set_volume(volume)
+
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 running = False

@@ -10,6 +10,7 @@ from Enemy import Enemy
 
 pause = False
 background_music_playing = False
+mute = False
 
 
 def pauseScreen():
@@ -34,11 +35,11 @@ def pauseScreen():
 
         # Pause Text
         pauseText = font.render("Paused", 1, (255, 255, 255))
-        win.blit(pauseText, (width / 2 - pauseText.get_width() / 2, 25))
+        win.blit(pauseText, (width / 2 - pauseText.get_width() / 2, height / 4 - 30))
 
         # Create restart button
         restart_button = pg.Rect(width / 2 - 120 / 2, height / 2 - 50, 120, 40)
-        pg.draw.rect(win, (0, 255, 0), restart_button)
+        pg.draw.rect(win, (0, 128, 0), restart_button)
         restart_label = main_font.render("Restart", 1, (255, 255, 255))
         win.blit(
             restart_label,
@@ -50,7 +51,7 @@ def pauseScreen():
 
         # Create resume button
         resume_button = pg.Rect(width / 2 - 120 / 2, height / 2, 120, 40)
-        pg.draw.rect(win, (0, 255, 0), resume_button)
+        pg.draw.rect(win, (0, 128, 0), resume_button)
         resume_label = main_font.render("Resume", 1, (255, 255, 255))
         win.blit(
             resume_label,
@@ -62,7 +63,7 @@ def pauseScreen():
 
         # Create exit button
         exit_button = pg.Rect(width / 2 - 120 / 2, height / 2 + 50, 120, 40)
-        pg.draw.rect(win, (255, 0, 0), exit_button)
+        pg.draw.rect(win, (128, 0, 0), exit_button)
         exit_label = main_font.render("Exit", 1, (255, 255, 255))
         win.blit(
             exit_label,
@@ -71,7 +72,16 @@ def pauseScreen():
                 height / 2 + 50 + 40 / 2 - exit_label.get_height() / 2,
             ),
         )
-
+        mute_button = pg.Rect(width / 2 - 120 / 2, height / 2 + 100, 120, 40)
+        pg.draw.rect(win, (128, 128, 128), mute_button)
+        mute_label = main_font.render("Mute", 1, (255, 255, 255))
+        win.blit(
+            mute_label,
+            (
+                width / 2 - mute_label.get_width() / 2,
+                height / 2 + 100 + 40 / 2 - mute_label.get_height() / 2,
+            ),
+        )
         pg.display.update()
 
         # Check for button clicks
@@ -98,7 +108,7 @@ def game():
         return obj1.mask.overlap(obj2.mask, (offset_x, offset_y)) != None
 
     level = 0
-    lives = 1
+    lives = 5
 
     run = True
     lost = False

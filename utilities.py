@@ -19,9 +19,27 @@ win = pg.display.set_mode((width, height))
 bg = pg.transform.scale(
     pg.image.load("Assets/Images/background-black.png"), (width, height)
 )
-bg_01 = pg.transform.scale(pg.image.load("Assets/Images/bg_01.png"), (width, height))
 
-bg_02 = pg.transform.scale(pg.image.load("Assets/Images/bg_02.png"), (width, height))
+
+# Load additional backgrounds
+backgrounds = {
+    "Default": pg.transform.scale(
+        pg.image.load("Assets/Images/background-black.png"), (width, height)
+    ),
+    "Background1": pg.transform.scale(
+        pg.image.load("Assets/Images/bg_01.png"), (width, height)
+    ),
+    "Background2": pg.transform.scale(
+        pg.image.load("Assets/Images/bg_02.png"), (width, height)
+    ),
+}
+
+
+def set_background(background_name):
+    global bg, current_background
+    current_background = background_name
+    bg = backgrounds[current_background]
+
 
 # Display
 FPS = 60
