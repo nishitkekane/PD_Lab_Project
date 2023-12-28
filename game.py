@@ -141,7 +141,7 @@ def game():
     lives = 5
 
     run = True
-    FPS = 40
+    FPS = 60
     lost = False
     global pause
     
