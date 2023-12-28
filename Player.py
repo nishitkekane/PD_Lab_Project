@@ -2,8 +2,6 @@ import pygame as pg
 from Ship import Ship
 from utilities import yellow_laser, yellow_ship, win
 
-score = 0
-
 
 # class Player is inherits from class Ship
 class Player(Ship):
@@ -23,8 +21,6 @@ class Player(Ship):
             else:
                 for obj in objs:
                     if laser.collision(obj):
-                        global score
-                        score += 50
                         objs.remove(obj)
                         if laser in self.lasers:
                             self.lasers.remove(laser)

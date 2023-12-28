@@ -12,7 +12,7 @@ from utilities import (
 
 
 class Enemy(Ship):
-    colorMap = {
+    COLOR_MAP = {
         "red": (red_ship, red_laser),
         "green": (green_ship, green_laser),
         "blue": (blue_ship, blue_laser),
@@ -20,7 +20,7 @@ class Enemy(Ship):
 
     def __init__(self, x, y, color, health=100):
         super().__init__(x, y, health)
-        self.ship_img, self.laser_img = self.colorMap[color]
+        self.ship_img, self.laser_img = self.COLOR_MAP[color]
         self.mask = pg.mask.from_surface(self.ship_img)
 
     def move(self, vel):

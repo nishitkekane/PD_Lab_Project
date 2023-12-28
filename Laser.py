@@ -1,5 +1,5 @@
 import pygame as pg
-from utilities import height, width, win, explosionAudio
+from utilities import height, win
 
 
 class Laser:

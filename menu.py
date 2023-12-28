@@ -1,7 +1,7 @@
 import pygame as pg
 from pygame.locals import *
 import sys
-from utilities import *
+from utilities import win, bg, quitGame, drawText, FPS, font, width, height, buttonAudio, backgroundAudio, font_small,  explosionAudio, gunshotAudio
 from game import game
 
 pg.init()
@@ -16,12 +16,10 @@ volume = 0.5
 
 
 def main_menu():
+    click = False
+
     while True:
-        # Mouse Position
-        mouseX, mouseY = pg.mouse.get_pos()
-
         win.blit(bg, (0, 0))
-
         titleText = font.render("Alien Invasion", 1, (125, 125, 255))
         win.blit(titleText, (width / 2 - titleText.get_width() / 2, 100))
 
@@ -46,19 +44,22 @@ def main_menu():
         exitButtonText = font.render("EXIT", 1, (255, 255, 255))
         win.blit(exitButtonText, (width / 2 - exitButtonText.get_width() / 2, 650))
 
+
         click = False
         for event in pg.event.get():
-            if event.type == pg.QUIT:
+            if event.type == QUIT:
                 pg.quit()
                 sys.exit()
-            if event.type == pg.KEYDOWN:
+            if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
                     pg.quit()
                     sys.exit()
-            if event.type == pg.MOUSEBUTTONDOWN:
+            if event.type == MOUSEBUTTONDOWN:
                 buttonAudio.play()
                 if event.button == 1:
                     click = True
+        
+        mouseX, mouseY = pg.mouse.get_pos()
 
         if playButton.collidepoint((mouseX, mouseY)):
             if click:
@@ -73,12 +74,6 @@ def main_menu():
 
         pg.display.update()
         mainClock.tick(FPS)
-
-
-def set_background(background_name):
-    global current_background
-    current_background = background_name
-
 
 def options():
     global volume
@@ -104,25 +99,6 @@ def options():
         pg.draw.rect(win, (255, 0, 0), backButton)
 
         win.blit(backText, (25, 35))
-
-        background_text = font_small.render(
-            f"Background: {current_background}", 1, (255, 255, 255)
-        )
-        win.blit(background_text, (width / 2 - background_text.get_width() / 2, 100))
-
-        for i, (name, image) in enumerate(backgrounds.items()):
-            button_text = font_small.render(name, 1, (255, 255, 255))
-            button_rect = pg.Rect(
-                50,
-                150 + i * 50,
-                button_text.get_width() + 25,
-                button_text.get_height() + 4,
-            )
-            pg.draw.rect(win, (255, 0, 0), button_rect)
-            win.blit(button_text, (60, 155 + i * 50))
-
-            if button_rect.collidepoint((mouseX, mouseY)) and click:
-                set_background(name)
 
         # Volume slider
         volume_text = font.render(f"Volume: {int(volume * 100)}%", 1, (255, 255, 255))

@@ -34,27 +34,6 @@ bg = pg.transform.scale(
 )
 
 
-# Load additional backgrounds
-backgrounds = {
-    "Default": pg.transform.scale(
-        pg.image.load(resource_path("Assets/Images/background-black.png")),
-        (width, height),
-    ),
-    "Background1": pg.transform.scale(
-        pg.image.load(resource_path("Assets/Images/bg_01.png")), (width, height)
-    ),
-    "Background2": pg.transform.scale(
-        pg.image.load(resource_path("Assets/Images/bg_02.png")), (width, height)
-    ),
-}
-
-
-def set_background(background_name):
-    global bg, current_background
-    current_background = background_name
-    bg = backgrounds[current_background]
-
-
 # Display
 FPS = 60
 # pg.display.set_mode((width, height))
@@ -99,6 +78,12 @@ buttonAudio = pg.mixer.Sound(resource_path("Assets/Audio/Button.wav"))
 explosionAudio = pg.mixer.Sound(resource_path("Assets/Audio/Explosion.mp3"))
 gunshotAudio = pg.mixer.Sound(resource_path("Assets/Audio/LaserShot.mp3"))
 backgroundAudio = pg.mixer.Sound(resource_path("Assets/Audio/BackgroundMusic.mp3"))
+
+def set_volume_for_all_audio(volume):
+    backgroundAudio.set_volume(volume)
+    buttonAudio.set_volume(volume)
+    explosionAudio.set_volume(volume)
+    gunshotAudio.set_volume(volume)
 
 
 # Game Functions

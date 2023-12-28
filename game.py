@@ -1,20 +1,23 @@
 import pygame as pg
-import os
-import time
 import random
-from Laser import Laser
 from utilities import *
-from Ship import Ship
 from Player import Player
 from Enemy import Enemy
+
+pg.init()
+pg.font.init()
 
 pause = False
 background_music_playing = False
 mute = False
+volume = 0.5
 
+# Window
+pg.display.set_mode((width, height))
+pg.display.set_caption("Alien Invasion")
 
 def pauseScreen():
-    global pause
+    global pause, volume, volumebackup, mute
     paused = True
 
     overlay = pg.Surface((width, height))
@@ -60,7 +63,7 @@ def pauseScreen():
                 height / 2 + 40 / 2 - resume_label.get_height() / 2,
             ),
         )
-
+    
         # Create exit button
         exit_button = pg.Rect(width / 2 - 120 / 2, height / 2 + 50, 120, 40)
         pg.draw.rect(win, (128, 0, 0), exit_button)
@@ -97,11 +100,39 @@ def pauseScreen():
             paused = False
             pause = False
 
+        if mute_button.collidepoint(mouse_x, mouse_y) and click:
+            if mute:
+                volume = volumebackup
+                set_volume_for_all_audio(volume)
+                mute = False
+            else:
+                volumebackup = volume
+                volume = 0
+                set_volume_for_all_audio(volume)
+                mute = True
+                
         if exit_button.collidepoint(mouse_x, mouse_y) and click:
             quitGame()
 
 
 def game():
+    def redraw_window():
+        win.blit(bg, (0, 0))
+        lives_label = main_font.render(f"Lives: {lives}", 1, (255, 255, 255))
+        level_label = main_font.render(f"Level: {level}", 1, (255, 255, 255))
+        lost_label = lost_font.render("You Lost!!", 1, (255, 255, 255))
+        for enemy in enemies:
+            enemy.draw()
+
+        player.draw()
+        win.blit(lives_label, (10, 10))
+        win.blit(level_label, (width - level_label.get_width() - 10, 10))
+        if lost:
+            win.blit(lost_label, (width / 2 - lost_label.get_width() / 2, 350))
+
+        player.healthbar()
+        pg.display.update()
+
     def collide(obj1, obj2):
         offset_x = obj2.x - obj1.x
         offset_y = obj2.y - obj1.y
@@ -111,11 +142,14 @@ def game():
     lives = 5
 
     run = True
+    FPS = 40
     lost = False
     global pause
+    
     enemies = []
     wave_length = 0
     lost_count = 0
+
     global background_music_playing
     if background_music_playing:
         backgroundAudio.stop()
@@ -131,34 +165,10 @@ def game():
 
     player = Player(325, 600)
     clock = pg.time.Clock()
+
     while run:
         clock.tick(FPS)
-        win.blit(bg, (0, 0))
-        lives_label = main_font.render(f"Lives: {lives}", 1, (255, 255, 255))
-        level_label = main_font.render(f"Level: {level}", 1, (255, 255, 255))
-        lost_label = lost_font.render("You Lost!!", 1, (255, 255, 255))
-        # scoreLabel = main_font.render(f"Score: {score}", 1, (255, 255, 255))
-        for enemy in enemies:
-            enemy.draw()
-
-        player.draw()
-        win.blit(lives_label, (10, 10))
-        win.blit(level_label, (width - level_label.get_width() - 10, 10))
-        # win.blit(scoreLabel, (width / 2, 10))
-        player.healthbar()
-        mouseX, mouseY = pg.mouse.get_pos()
-        if lost:
-            win.fill((0, 0, 255))
-            PlayAgainButton = pg.Rect(width / 2 - 160, height / 2 - 40, 320, 80)
-            pg.draw.rect(win, (255, 0, 0), PlayAgainButton)
-            win.blit(
-                lost_label,
-                (
-                    width / 2 - lost_label.get_width() / 2,
-                    height / 2 - lost_label.get_height() / 2,
-                ),
-            )
-            pg.display.update()
+        redraw_window()
 
         if lives <= 0 or player.health <= 0:
             lost = True
@@ -182,15 +192,9 @@ def game():
                 )
                 enemies.append(enemy)
 
-        if not pause:
-            pg.display.update()
-
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 quitGame()
-
-            keys = pg.key.get_pressed()
-
             if keys[pg.K_ESCAPE]:
                 if pause:
                     pause = False
@@ -200,43 +204,40 @@ def game():
 
         # Movement of player
         keys = pg.key.get_pressed()
-        if not pause:
-            if (keys[pg.K_LEFT] or keys[pg.K_a]) and player.x - player_vel > 0:  # left
-                player.x -= player_vel
-            if (
-                keys[pg.K_RIGHT] or keys[pg.K_d]
-            ) and player.x + player_vel + player.get_width() < width:  # right
-                player.x += player_vel
-            if (keys[pg.K_UP] or keys[pg.K_w]) and player.y - player_vel > 0:  # up
-                player.y -= player_vel
-            if (
-                keys[pg.K_DOWN] or keys[pg.K_s]
-            ) and player.y + player_vel + player.get_height() + 15 < height:  # down
-                player.y += player_vel
-            if keys[pg.K_SPACE]:
-                player.shoot()
+        if (keys[pg.K_LEFT] or keys[pg.K_a]) and player.x - player_vel > 0:  # left
+            player.x -= player_vel
+        if (
+            keys[pg.K_RIGHT] or keys[pg.K_d]
+        ) and player.x + player_vel + player.get_width() < width:  # right
+            player.x += player_vel
+        if (keys[pg.K_UP] or keys[pg.K_w]) and player.y - player_vel > 0:  # up
+            player.y -= player_vel
+        if (
+            keys[pg.K_DOWN] or keys[pg.K_s]
+        ) and player.y + player_vel + player.get_height() + 15 < height:  # down
+            player.y += player_vel
+        if keys[pg.K_SPACE]:
+            player.shoot()
 
         # Movement of enemies
         for enemy in enemies[:]:
-            if not pause:
-                enemy.move(enemy_vel)
-                if (
-                    enemy.y + enemy.get_height() < height
-                    and enemy.y + enemy.get_height() > 0
-                ):
-                    enemy.move_lasers(laser_vel - 5, player)
+            enemy.move(enemy_vel)
+            if (
+                enemy.y + enemy.get_height() < height
+                and enemy.y + enemy.get_height() > 0
+            ):
+                enemy.move_lasers(laser_vel - 5, player)
 
-                if collide(enemy, player):
-                    explosionAudio.play()
-                    player.health -= 10
-                    enemies.remove(enemy)
+            if collide(enemy, player):
+                explosionAudio.play()
+                player.health -= 10
+                enemies.remove(enemy)
 
-                if random.randrange(0, 3 * 60) == 1:
-                    enemy.shoot()
+            if random.randrange(0, 3 * 60) == 1:
+                enemy.shoot()
 
-                if enemy.y + enemy.get_height() > height:
-                    lives = lives - 1
-                    enemies.remove(enemy)
+            if enemy.y + enemy.get_height() > height:
+                lives = lives - 1
+                enemies.remove(enemy)
 
-                player.move_lasers(-laser_vel, enemies)
-        pg.display.update()
+        player.move_lasers(-laser_vel, enemies)
