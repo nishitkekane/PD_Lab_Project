@@ -28,11 +28,10 @@ def pauseScreen():
             if event.type == pg.QUIT:
                 quitGame()
 
-            keys = pg.key.get_pressed()
-
-            if keys[pg.K_ESCAPE]:
-                paused = False
-                pause = False
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_ESCAPE:
+                    paused = False
+                    pause = False
 
         win.blit(overlay, (0, 0))
 
@@ -166,6 +165,8 @@ def game():
     player = Player(325, 600)
     clock = pg.time.Clock()
 
+    escape_pressed = False
+
     while run:
         clock.tick(FPS)
         redraw_window()
@@ -195,13 +196,17 @@ def game():
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 quitGame()
-            if keys[pg.K_ESCAPE]:
+            keys = pg.key.get_pressed()
+            if keys[pg.K_ESCAPE] and not escape_pressed:
                 if pause:
                     pause = False
                 else:
                     pause = True
                     pauseScreen()
-
+                escape_pressed = True
+            elif not keys[pg.K_ESCAPE]:
+                escape_pressed = False
+                
         # Movement of player
         keys = pg.key.get_pressed()
         if (keys[pg.K_LEFT] or keys[pg.K_a]) and player.x - player_vel > 0:  # left

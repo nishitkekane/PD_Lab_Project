@@ -1,7 +1,7 @@
 import pygame as pg
 from pygame.locals import *
 import sys
-from utilities import win, bg, quitGame, drawText, FPS, font, width, height, buttonAudio, backgroundAudio, font_small,  explosionAudio, gunshotAudio
+from utilities import *
 from game import game
 
 pg.init()
@@ -118,10 +118,7 @@ def options():
                 and 490 <= mouseY <= 510
             ):
                 volume = (mouseX - slider_bar_x) / slider_bar_width
-        backgroundAudio.set_volume(volume)
-        buttonAudio.set_volume(volume)
-        explosionAudio.set_volume(volume)
-        gunshotAudio.set_volume(volume)
+        set_volume_for_all_audio(volume)
 
         for event in pg.event.get():
             if event.type == pg.QUIT:
@@ -136,7 +133,7 @@ def options():
                 if event.button == 1:
                     click = True
 
-        if backButton.collidepoint((mouseX, mouseY)):
+        if backButton.collidepoint((mouseX, mouseY)) and click:
             if click:
                 running = False
 
